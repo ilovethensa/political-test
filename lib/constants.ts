@@ -1,4 +1,4 @@
-import { Option } from "./types";
+import { Option } from "../types";
 
 export const OPTIONS: Option[] = [
   { value: 1, label: "Напълно против", color: "text-red-400 border-red-500 bg-red-900/40", flashColor: "bg-red-500/50" },
