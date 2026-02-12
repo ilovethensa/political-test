@@ -1,4 +1,4 @@
-import { Question, PartyResult } from "../types";
+import { PartyResult } from "../types";
 import { getOptionData } from "../lib/constants";
 
 type ResultsViewProps = {
