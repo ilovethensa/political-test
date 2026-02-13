@@ -1,17 +1,25 @@
+import { useState } from "react";
 import { PartyResult } from "../types";
 import { getOptionData } from "../lib/constants";
 
 type ResultsViewProps = {
   results: PartyResult[];
-  expandedParties: Record<string, boolean>;
-  toggleParty: (partyName: string, defaultExpanded: boolean) => void;
   resetAll: () => void;
 };
 
-export function ResultsView({ results, expandedParties, toggleParty, resetAll }: ResultsViewProps) {
+export function ResultsView({ results, resetAll }: ResultsViewProps) {
+  const [expandedParties, setExpandedParties] = useState<Record<string, boolean>>({});
+
+  const toggleParty = (partyName: string, defaultExpanded: boolean) => {
+    setExpandedParties(prev => ({ 
+      ...prev, 
+      [partyName]: !(prev[partyName] ?? defaultExpanded) 
+    }));
+  };
   return (
-    <div className="w-full max-w-4xl mx-auto py-20 px-4 sm:px-6 lg:px-8 space-y-16">
-      <header className="text-center space-y-4">
+    <div className="w-full h-full overflow-y-auto">
+      <div className="max-w-4xl mx-auto py-10 sm:py-20 px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+        <header className="text-center space-y-4">
         <h1 className="text-3xl tracking-tight">Резултати</h1>
         <p className="text-gray-400">Вашата съвместимост в спектъра.</p>
       </header>
@@ -33,7 +41,7 @@ export function ResultsView({ results, expandedParties, toggleParty, resetAll }:
                   </div>
                   <p className="text-gray-400 max-w-md text-sm">{result.party.description}</p>
                 </div>
-                <div className={`text-5xl font-extralight tracking-tighter ${idx === 0 ? 'text-green-400' : 'text-white'}`}>
+                <div className={`text-4xl sm:text-5xl font-extralight tracking-tighter ${idx === 0 ? 'text-green-400' : 'text-white'}`}>
                   {result.compatibility}<span className="text-2xl ml-1">%</span>
                 </div>
               </button>
@@ -61,7 +69,7 @@ export function ResultsView({ results, expandedParties, toggleParty, resetAll }:
                           <span className="text-[10px] uppercase tracking-widest text-gray-500">Разлика: {item.difference}</span>
                           <span className={`text-xs ${
                             item.difference <= 1 ? 'text-green-400' : 
-                            item.difference === 2 ? 'text-yellow-400' : 
+                            item.difference <= 2 ? 'text-yellow-400' : 
                             'text-red-400'
                           }`}>
                             {item.label}
@@ -80,6 +88,7 @@ export function ResultsView({ results, expandedParties, toggleParty, resetAll }:
       <footer className="pt-12 pb-10 flex justify-center">
         <button onClick={resetAll} className="px-10 py-3 border border-white hover:bg-white hover:text-black transition-all">Рестарт</button>
       </footer>
+      </div>
     </div>
   );
 }

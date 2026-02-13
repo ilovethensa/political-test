@@ -6,23 +6,23 @@ export const calculateResults = (userAnswers: Record<string, number>, questions:
   const totalMaxDiff = activeQuestions.length * 4;
 
   return parties.map(party => {
-    let totalDifference = 0;
     const breakdown = activeQuestions.map(q => {
       const diff = Math.abs(userAnswers[q.id] - q.positions[party.name]);
-      totalDifference += diff;
       return {
         questionId: q.id,
         questionText: q.description,
         userAnswer: userAnswers[q.id],
         partyPosition: q.positions[party.name],
-        difference: Number(diff.toFixed(2)),
+        difference: diff,
         label: getLabel(diff),
       };
     });
 
+    const totalDifference = breakdown.reduce((sum, item) => sum + item.difference, 0);
+
     return {
       party,
-      totalDifference: Number(totalDifference.toFixed(2)),
+      totalDifference,
       compatibility: totalMaxDiff ? Math.round(((totalMaxDiff - totalDifference) / totalMaxDiff) * 100) : 0,
       breakdown,
     };

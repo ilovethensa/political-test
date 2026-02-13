@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { Question, Party } from "../types";
 import { usePoliticalTest } from "../hooks/usePoliticalTest";
 import { StartView } from "./StartView";
 import { TestView } from "./TestView";
 import { ResultsView } from "./ResultsView";
-import { logTestResult } from "../app/actions";
 import { useSearchParams } from "next/navigation";
 
 type TestClientProps = {
@@ -16,31 +14,19 @@ type TestClientProps = {
 
 export function TestClient({ questions, parties }: TestClientProps) {
   const searchParams = useSearchParams();
-  const answersParam = searchParams.get("answers");
-  const hasLogged = useRef(false);
-
   const {
     currentQuestionIndex,
     currentQuestion,
     isResultsMode,
     results,
     clickedOption,
-    expandedParties,
     startTest,
     handleAnswer,
     resetAll,
-    toggleParty,
   } = usePoliticalTest(questions, parties);
 
-  useEffect(() => {
-    if (isResultsMode && answersParam && !hasLogged.current) {
-      hasLogged.current = true;
-      logTestResult(answersParam);
-    }
-  }, [isResultsMode, answersParam]);
-
   if (isResultsMode) {
-    return <ResultsView results={results} expandedParties={expandedParties} toggleParty={toggleParty} resetAll={resetAll} />;
+    return <ResultsView results={results} resetAll={resetAll} />;
   }
 
   if (currentQuestionIndex === -1) {

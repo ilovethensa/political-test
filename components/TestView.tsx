@@ -28,8 +28,8 @@ export function TestView({
   };
 
   return (
-    <>
-      <div className="max-w-2xl w-full flex-grow flex flex-col justify-center px-6 pb-[450px] sm:pb-40 relative z-10">
+    <div className="flex flex-col h-screen h-[100dvh] w-full max-w-3xl mx-auto overflow-hidden relative">
+      <div className="flex-grow overflow-y-auto px-6 pt-12 pb-8 flex flex-col justify-center min-h-0">
         <header className="space-y-6">
           <span className="text-[10px] uppercase tracking-[0.4em] text-gray-500">
             Стъпка {currentQuestionIndex + 1} / {totalQuestions}
@@ -40,8 +40,8 @@ export function TestView({
         </header>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent z-20">
-        <div className={`max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-5 gap-3 ${clickedOption !== null ? 'pointer-events-none' : ''}`}>
+      <div className="flex-shrink-0 p-6 bg-gradient-to-t from-black via-black/90 to-black/0 border-t border-white/5">
+        <div className={`grid grid-cols-1 sm:grid-cols-5 gap-2 sm:gap-3 ${clickedOption !== null ? 'pointer-events-none' : ''}`}>
           {OPTIONS.map((option) => (
             <OptionButton 
               key={option.value} 
@@ -52,6 +52,6 @@ export function TestView({
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

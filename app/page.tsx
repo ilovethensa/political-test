@@ -11,7 +11,7 @@ export default async function Home({
   const { answers } = await searchParams;
 
   return (
-    <div className="font-mono min-h-screen bg-black text-white flex flex-col items-center">
+    <div className="font-mono h-screen h-[100dvh] bg-black text-white overflow-hidden">
       <Suspense fallback={null}>
         <TestClient 
           key={answers || 'start'}
